@@ -1,0 +1,461 @@
+<section class="header-wrapper">
+  <!-- container - starts -->
+  <div class="container pt-5">
+    <!-- nav starts -->
+    <div class="row">
+      <div class="col">
+        <app-nav></app-nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Profile Section -->
+<section class="profile-wrapper">
+  <div class="container pt-4">
+    <div class="row">
+      <div class="col-md-12 mx-auto text-center">
+        <h2 class="mb-0 my-2 pb-2">Profile</h2>
+      </div>
+    </div>
+    <div class="row" style="border: solid black">
+      <div class="col-md-12 mx-auto">
+        <div class="row">
+          <div class="col-md-5 col-sm-5" style="border: solid black">
+            <!-- Profile Image -->
+            <div class="card-body text-center">
+              <!-- <img
+                class="img-fluid avatar-img"
+                [src]="getUserAvatar(userData?.img)"
+                [alt]="getUserAvatar(userData?.img)"
+                [title]="getUserAvatar(userData?.img)"
+              /> -->
+            </div>
+
+            <!-- Edit Photo and Edit Profile Buttons -->
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-20">
+                    <label id="file" class="btn btn-warning">
+                      Edit Photo
+                      <!-- Display Selected Image -->
+                      <!-- <img
+                        *ngIf="urllink"
+                        [src]="urllink"
+                        alt="Selected Image"
+                        class="img-fluid"
+                      /> -->
+                      <input
+                        type="file"
+                        class="form-control"
+                        accept="image/*"
+                        (change)="selectFiles($event)"
+                      />
+                    </label>
+                    <div class="card-body text-center">
+                      <img
+                        class="img-fluid avatar-img"
+                        [src]="getUserAvatar(userData?.img)"
+                        [alt]="getUserAvatar(userData?.img)"
+                        [title]="getUserAvatar(userData?.img)"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-20">
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      (click)="toggleEditMode()"
+                    >
+                      {{ editMode ? "Save Changes" : "Edit Profile" }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7 col-sm-7">
+            <!-- Profile Description -->
+            <div class="card-body profile-desc">
+              <ng-container *ngIf="!editMode; else editModeTemplate">
+                <!-- Display existing data -->
+                <p>
+                  I'm {{ userData?.firstName }} {{ userData?.lastName }} and I
+                  am above {{ userData?.age }} years of age. <br />
+                  You can send your emails to
+                  <a href="mailto:{{ userData?.email }}"
+                    ><i class="fa fa-envelope me-1"></i
+                  ></a>
+                  <a href="mailto:{{ userData?.email }}">{{
+                    userData?.email
+                  }}</a
+                  >.
+                </p>
+
+                <!-- Address With Instant Search On  Google Maps Button -->
+                <p>
+                  <ng-container
+                    *ngIf="
+                      userData?.addressType === 'home';
+                      else companyAddress
+                    "
+                  >
+                    I live in {{ userData?.address1 }},
+                    {{ userData?.address2 }}, {{ userData?.state }},
+                    {{ userData?.country }}.
+                    <a
+                      href="#"
+                      (click)="
+                        redirectToGoogleMaps(
+                          userData.address1,
+                          userData.address2,
+                          userData.state,
+                          userData.country
+                        )
+                      "
+                    >
+                      <i class="fa fa-location-arrow"></i>
+                    </a>
+                  </ng-container>
+                  <ng-template #companyAddress>
+                    My company address is {{ userData?.companyAddress1 }}
+                    {{ userData?.companyAddress2 }} {{ userData?.state }},
+                    {{ userData?.country }}.
+                    <a
+                      href="#"
+                      (click)="
+                        redirectToGoogleMaps(
+                          userData.companyAddress1,
+                          userData.companyAddress2,
+                          userData.state,
+                          userData.country
+                        )
+                      "
+                    >
+                      <i class="fa fa-map-marker"></i>
+                    </a>
+                  </ng-template>
+                </p>
+
+                <!-- Interests -->
+                <p>
+                  My Interests are
+                  <span
+                    *ngFor="
+                      let interest of userData?.interests;
+                      let isFirst = first;
+                      let isLast = last
+                    "
+                  >
+                    <ng-container *ngIf="isFirst; else notFirst">{{
+                      interest
+                    }}</ng-container>
+                    <ng-template #notFirst>
+                      <ng-container *ngIf="isLast">
+                        & {{ interest }}</ng-container
+                      >
+                      <ng-container *ngIf="!isLast"
+                        >, {{ interest }}</ng-container
+                      >
+                    </ng-template> </span
+                  >.
+                </p>
+
+                <!-- Newsletter Section -->
+                <p *ngIf="userData?.newsletter">
+                  I would also love to receive newsletters.
+                  <br />
+                  Please reach out to me on my phone number:
+                  <a href="#" (click)="redirectToPhoneNumber(userData?.mobile)">
+                    <i class="fa fa-phone me-1"></i>
+                  </a>
+                  <a href="tel:{{ userData?.mobile }}">{{
+                    userData?.mobile
+                  }}</a>
+                </p>
+                <p *ngIf="!userData?.newsletter">
+                  At this moment I am not ready to receive newsletters.
+                  <br />
+                  Please reach out to me on my phone number:
+                  <a href="#" (click)="redirectToPhoneNumber(userData?.mobile)">
+                    <i class="fa fa-phone me-1"></i>
+                  </a>
+                  <a href="tel:{{ userData?.mobile }}">{{
+                    userData?.mobile
+                  }}</a>
+                </p>
+                <!-- Agree Button -->
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="mb-20">
+                      <!-- <button
+                        type="submit"
+                        class="btn btn-success"
+                        routerLink=""
+                      >
+                        I Agree
+                      </button> -->
+                      <button>I Agree</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- Edit mode template -->
+              <ng-template #editModeTemplate>
+                <!-- Form for editing data -->
+                <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+                  <!-- First Name -->
+                  <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      class="form-control"
+                      formControlName="firstName"
+                    />
+                    <!-- Display Error Message If Invalid First Name Format Provided!!!! -->
+                    <div
+                      *ngIf="profileForm.get('firstName')?.touched"
+                      class="text-danger"
+                    >
+                      <!-- Validation Message For Empty Field!!!! -->
+                      <div
+                        *ngIf="profileForm.get('firstName')?.errors?.['required']"
+                      >
+                        First Name is Required....
+                      </div>
+                      <!-- Validation Message For Regex Pattern!!!! -->
+                      <div
+                        *ngIf="profileForm.get('firstName')?.errors?.['pattern']"
+                      >
+                        Only Alphabetic Characters Are Allowed Without
+                        Spaces!!!!
+                      </div>
+                      <!-- Validation Message For Maximum Length!!!! -->
+                      <div
+                        *ngIf="profileForm.get('firstName')?.errors?.['maxlength']"
+                      >
+                        Maximum Length Exceeded (Maximum 20 Characters)
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Last Name -->
+                  <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      class="form-control"
+                      formControlName="lastName"
+                    />
+                    <!-- Display Error Message If Invalid Last Name Format Provided!!!! -->
+                    <div
+                      *ngIf="profileForm.get('lastName')?.touched"
+                      class="text-danger"
+                    >
+                      <!-- Validation Message For Empty Field!!!! -->
+                      <div
+                        *ngIf="profileForm.get('lastName')?.errors?.['required']"
+                      >
+                        Last Name is Required....
+                      </div>
+                      <!-- Validation Message For Regex Pattern!!!! -->
+                      <div
+                        *ngIf="profileForm.get('lastName')?.errors?.['pattern']"
+                      >
+                        Only Alphabetic Characters Are Allowed Without
+                        Spaces!!!!
+                      </div>
+                      <!-- Validation Message For Maximum Length!!!! -->
+                      <div
+                        *ngIf="profileForm.get('lastName')?.errors?.['maxlength']"
+                      >
+                        Maximum Length Exceeded (Maximum 20 Characters)
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      class="form-control"
+                      formControlName="email"
+                    />
+                    <!-- Display  Error Message If Invalid Email Format Provided!!!! -->
+                    <div
+                      *ngIf="profileForm.get('email')?.touched"
+                      class="text-danger"
+                    >
+                      <!-- Display error message if email is required -->
+                      <div
+                        *ngIf="profileForm.get('email')?.errors?.['required']"
+                      >
+                        Email is Required....
+                      </div>
+                      <!-- Display error message if email format is invalid -->
+                      <div *ngIf="profileForm.get('email')?.errors?.['email']">
+                        Invalid Email Format!!!!
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Mobile -->
+                  <div class="mb-3">
+                    <label for="mobile" class="form-label">Mobile</label>
+                    <input
+                      type="tel"
+                      id="mobile"
+                      class="form-control"
+                      formControlName="mobile"
+                    />
+                    <!-- Display error message if email format is invalid -->
+                    <div
+                      *ngIf="profileForm.get('mobile')?.errors?.['required'] || profileForm.get('mobile')?.errors?.['pattern'] || profileForm.get('mobile')?.errors?.['maxlength']"
+                      class="text-danger"
+                    >
+                      <!-- Display error message if mobile number is required -->
+                      <div
+                        *ngIf="profileForm.get('mobile')?.errors?.['required']"
+                      >
+                        Mobile Number Is Required....
+                      </div>
+                      <!-- Display error message if mobile number contains non-numeric characters or pattern is invalid and touched -->
+                      <div
+                        *ngIf="profileForm.get('mobile')?.errors?.['pattern']"
+                      >
+                        Mobile Number Should Contain Only Numeric Digits....
+                      </div>
+                      <div
+                        *ngIf="profileForm.get('mobile')?.errors?.['maxlength']"
+                      >
+                        Mobile Number should not exceed 10 digits....
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Age -->
+                  <div class="mb-3">
+                    <label for="age" class="me-2">Age:</label>
+                    <mat-slider
+                      min="20"
+                      max="60"
+                      step="1"
+                      showTickMarks
+                      discrete
+                      [displayWith]="formatLabel"
+                    >
+                      <input matSliderThumb formControlName="age" />
+                    </mat-slider>
+                  </div>
+
+                  <!-- Address Type -->
+                  <div class="mb-3">
+                    <label>Address Type:</label>
+                    <select
+                      class="form-select"
+                      formControlName="addressType"
+                      (change)="onAddressTypeChange($event)"
+                    >
+                      <option value="home">Home</option>
+                      <option value="company">Company</option>
+                    </select>
+                  </div>
+
+                  <!-- Address 1 -->
+                  <div *ngIf="isHomeAddressSelected()" class="mb-3">
+                    <label>Address 1:</label>
+                    <input
+                      formControlName="address1"
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter address"
+                    />
+                  </div>
+
+                  <!-- Address 2 -->
+                  <div *ngIf="isHomeAddressSelected()" class="mb-3">
+                    <label>Address 2:</label>
+                    <input
+                      formControlName="address2"
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter address"
+                    />
+                  </div>
+
+                  <!-- Company Address 1 -->
+                  <div *ngIf="isCompanyAddressSelected()" class="mb-3">
+                    <label>Company Address 1:</label>
+                    <input
+                      formControlName="companyAddress1"
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter company address"
+                    />
+                  </div>
+
+                  <!-- Company Address 2 -->
+                  <div *ngIf="isCompanyAddressSelected()" class="mb-3">
+                    <label>Company Address 2:</label>
+                    <input
+                      formControlName="companyAddress2"
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter company address"
+                    />
+                  </div>
+
+                  <!-- State -->
+                  <div class="mb-3">
+                    <label for="state" class="form-label">State</label>
+                    <input
+                      type="text"
+                      id="state"
+                      class="form-control"
+                      formControlName="state"
+                    />
+                  </div>
+                  <!-- Country -->
+                  <div class="mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input
+                      type="text"
+                      id="country"
+                      class="form-control"
+                      formControlName="country"
+                    />
+                  </div>
+
+                  <!-- Newsletter -->
+                  <div class="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      id="newsletter"
+                      class="form-check-input"
+                      formControlName="newsletter"
+                    />
+                    <label for="newsletter" class="form-check-label"
+                      >Subscribe to Newsletter</label
+                    >
+                  </div>
+                  <!-- Save Button -->
+                  <button type="submit" class="btn btn-success">
+                    Save Changes
+                  </button>
+                </form>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+</section>

@@ -1,0 +1,332 @@
+<div class="container-fluid bg-light">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="text-center">Registration Form</h2>
+    <!-- Close button -->
+    <button
+      class="btn-close close-button"
+      aria-label="Close"
+      (click)="closeDialog()"
+    ></button>
+  </div>
+
+  <form
+    class="registration-form row align-items-start"
+    [formGroup]="data"
+    (ngSubmit)="onSubmit()"
+  >
+    <!-- Left Side Content -->
+    <!-- Image Upload -->
+    <div class="col-12 col-md-6 mb-3 mb-md-0 order-md-1 order-2">
+      <div class="form-group">
+        <!-- Display selected image -->
+        <img
+          *ngIf="urllink; else fallbackImage"
+          [src]="urllink"
+          alt="Selected Image"
+          class="img-fluid"
+        />
+        <ng-template #fallbackImage>
+          <img
+            src="assets/img/prof.jpg"
+            alt="Fallback Image"
+            class="img-fluid"
+          />
+        </ng-template>
+
+        <!-- Input for uploading image -->
+        <input
+          formControlName="img"
+          type="file"
+          (change)="onFileSelected($event)"
+          class="form-control-file"
+          id="image"
+          accept="image/*"
+        />
+        <!-- Label for the input -->
+        <label for="image" class="d-block">Upload Your Photo</label>
+        <!-- Display Error Message If Invalid Image Format Provided!!!! -->
+        <div
+          *ngIf="
+            data.get('img')?.touched &&
+            (data.get('img')?.errors || invalidDimensions)
+          "
+          class="text-danger"
+        >
+          <!-- Validation Message For Empty Field!!!! -->
+          <div *ngIf="data.get('img')?.errors?.['required']">Upload Photo.</div>
+          <!-- Display error message if image dimensions are not met -->
+          <div *ngIf="invalidDimensions">
+            Image Dimensions Must Be 310x325 px.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side Content -->
+    <div class="right-content col-12 col-md-6 order-md-2 order-1">
+      <!-- First Name -->
+
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input
+          type="text"
+          formControlName="firstName"
+          class="form-control"
+          placeholder="Enter first name"
+          [ngClass]="{
+            'is-invalid':
+              data.get('firstName')?.errors && data.get('firstName')?.touched
+          }"
+          (input)="onFirstNameInput($event)"
+        />
+
+        <!-- Display Error Message If Invalid First Name Format Provided!!!! -->
+        <div
+          *ngIf="
+            data.get('firstName')?.errors && data.get('firstName')?.touched
+          "
+          class="text-danger"
+        >
+          <!-- Validation Message For Empty Field!!!! -->
+          <div *ngIf="data.get('firstName')?.errors?.['required']">
+            First Name is Required....
+          </div>
+          <!-- Validation Message For Regex Pattern!!!! -->
+          <div *ngIf="data.get('firstName')?.errors?.['pattern']">
+            Only Alphabetic Characters Are Allowed Without Spaces!!!!
+          </div>
+          <!-- Validation Message For Maximum Length!!!! -->
+          <div *ngIf="data.get('firstName')?.errors?.['maxlength']">
+            Maximum Length Exceeded (Maximum 20 Characters)
+          </div>
+        </div>
+      </div>
+      <!-- Last Name  -->
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input
+          type="text"
+          formControlName="lastName"
+          class="form-control"
+          placeholder="Enter last name"
+          [ngClass]="{
+            'is-invalid':
+              data.get('lastName')?.errors && data.get('lastName')?.touched
+          }"
+          (input)="onLastNameInput($event)"
+        />
+
+        <!-- Display Error Message If Invalid Last Name Format Provided!!!! -->
+        <div
+          *ngIf="data.get('lastName')?.errors && data.get('lastName')?.touched"
+          class="text-danger"
+        >
+          <!-- Validation Message For Empty Field!!!! -->
+          <div *ngIf="data.get('lastName')?.errors?.['required']">
+            Last Name is Required....
+          </div>
+          <!-- Validation Message For Regex Pattern!!!! -->
+          <div *ngIf="data.get('lastName')?.errors?.['pattern']">
+            Only Alphabetic Characters Are Allowed Without Spaces!!!!
+          </div>
+          <!-- Validation Message For Maximum Length!!!! -->
+          <div *ngIf="data.get('lastName')?.errors?.['maxlength']">
+            Maximum Length Exceeded (Maximum 20 Characters)
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Enter email"
+        />
+        <!-- Display  Error Message If Invalid Email Format Provided!!!! -->
+        <div *ngIf="data.get('email')?.touched" class="text-danger">
+          <!-- Display error message if email is required -->
+          <div *ngIf="data.get('email')?.errors?.['required']">
+            Email is Required....
+          </div>
+          <!-- Display error message if email format is invalid -->
+          <div *ngIf="data.get('email')?.errors?.['email']">
+            Invalid Email Format!!!!
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="form-group">
+        <label for="mobile">Mobile Number:</label>
+        <input
+          formControlName="mobile"
+          type="tel"
+          class="form-control"
+          id="mobile"
+          placeholder="Enter mobile number"
+          [ngClass]="{
+            'is-invalid':
+              data.get('mobile')?.errors && data.get('mobile')?.touched
+          }"
+          (input)="onMobileInput($event)"
+        />
+        <!-- Display error message if email format is invalid -->
+        <div
+          *ngIf="data.get('mobile')?.errors && data.get('mobile')?.touched"
+          class="text-danger"
+        >
+          <!-- Display error message if mobile number is required -->
+          <div *ngIf="data.get('mobile')?.errors?.['required']">
+            <!-- Mobile Number Is Required.... -->
+          </div>
+          <!-- Display error message if mobile number contains non-numeric characters or pattern is invalid and touched -->
+          <div *ngIf="data.get('mobile')?.errors?.['pattern']">
+            Mobile Number Should Contain Only Numeric Digits....
+          </div>
+          <div *ngIf="data.get('mobile')?.errors?.['maxlength']">
+            Mobile Number should not exceed 10 digits....
+          </div>
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <mat-slider
+          min="20"
+          max="60"
+          step="1"
+          showTickMarks
+          discrete
+          [displayWith]="formatLabel"
+        >
+          <input matSliderThumb formControlName="age" />
+        </mat-slider>
+      </div>
+
+      <!-- Country, State, and Address -->
+      <!--  Country -->
+      <div class="form-group" appearance="fill">
+        <label>Country:</label>
+        <select
+          class="form-select"
+          formControlName="country"
+          (change)="onChangeCountry($event)"
+        >
+          <option value="" disabled selected>Select Country</option>
+          <option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </option>
+        </select>
+      </div>
+
+      <!-- States -->
+      <div class="form-group">
+        <label>State:</label>
+        <select class="form-select" formControlName="state">
+          <option value="" disabled selected>Select State</option>
+          <option
+            *ngFor="let state of states[data.get('country')?.value || '']"
+            [value]="state"
+          >
+            {{ state }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Address 1 and 2 -->
+      <div class="form-group">
+        <label>Address Type:</label>
+        <select
+          class="form-select"
+          formControlName="addressType"
+          (change)="onAddressTypeChange($event)"
+        >
+          <option value="home">Home</option>
+          <option value="company">Company</option>
+        </select>
+
+        <div *ngIf="isHomeAddress">
+          <div>
+            <label>Address 1:</label>
+            <input type="text" formControlName="address1" />
+          </div>
+          <div>
+            <label>Address 2:</label>
+            <input type="text" formControlName="address2" />
+          </div>
+        </div>
+
+        <div *ngIf="isCompanyAddress">
+          <div>
+            <label>Company Address 1:</label>
+            <input type="text" formControlName="companyAddress1" />
+          </div>
+          <div>
+            <label>Company Address 2:</label>
+            <input type="text" formControlName="companyAddress2" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Interests Feild -->
+      <div class="form-group col-12 mt-3">
+        <mat-form-field class="example-chip-list">
+          <mat-label>Interest:</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Enter interests">
+            <mat-chip-row
+              *ngFor="let interest of interests"
+              (removed)="removeInterest(interest)"
+            >
+              {{ interest }}
+              <button matChipRemove [attr.aria-label]="'remove ' + interest">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input
+              placeholder="New interest..."
+              [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addInterest($event)"
+            />
+          </mat-chip-grid>
+        </mat-form-field>
+      </div>
+
+      <!-- Newsletter Checkbox -->
+      <div class="form-check">
+        <input
+          formControlName="newsletter"
+          class="form-check-input"
+          type="checkbox"
+          id="newsletter"
+        />
+        <label class="form-check-label" for="newsletter"
+          >Subscribe to newsletter</label
+        >
+      </div>
+    </div>
+
+    <!-- Submit and Reset Buttons -->
+    <div class="col-12 order-3 d-flex justify-content-center mt-3">
+      <div class="d-flex flex-row">
+        <button type="reset" class="btn btn-danger mt-3 mx-3">Reset</button>
+        <button type="submit" class="btn btn-primary mt-3 mx-3">
+          Register
+        </button>
+        <button
+          type="reset"
+          class="btn btn-primary d-none mt-3 mx-3"
+          routerLink="/profile"
+        >
+          Profile
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

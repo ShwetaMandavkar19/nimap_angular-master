@@ -1,0 +1,94 @@
+<!-- first header section starts  -->
+<section class="header-wrapper">
+  <!-- container - starts -->
+  <div class="container w-100 h-100 pt-5">
+    <!-- nav starts -->
+    <div class="row">
+      <div class="col">
+        <app-nav></app-nav>
+      </div>
+    </div>
+    <!-- nav ends -->
+    <!-- search box starts -->
+    <div
+      class="row search-box align-items-center h-100"
+      style="margin-top: -7%"
+    >
+      <div class="col">
+        <!-- row for heading -->
+        <div class="row">
+          <div class="col">
+            <h1 class="mb-20">I'm looking for....</h1>
+          </div>
+        </div>
+        <!-- row that would contain search bar , checkboxes and select dropdown - starts -->
+        <div class="row">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="search-query"
+                    aria-describedby="search"
+                    placeholder="Enter a Job Description"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row mb-20">
+              <div class="col-md-6 pt-2">
+                <div class="row cb-wrapper">
+                  <div class="col-md-4 mb-1">
+                    <label class="checkbox-label">
+                      <input type="checkbox" id="fulltime" name="fulltime" />
+                      <span class="checkmark"></span> Full Time</label
+                    >
+                  </div>
+                  <div class="col-md-8 mb-1">
+                    <label class="checkbox-label">
+                      <input type="checkbox" id="fulltime" name="fulltime" />
+                      <span class="checkmark"></span> Part Time / Casual /
+                      Freelance</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 pt-2">
+                <select name="" id="" class="form-control">
+                  <option selected>Select your Location</option>
+                  <option value="1">Mumbai</option>
+                  <option value="1">Pune</option>
+                  <option value="2">Delhi</option>
+                  <option value="3">Bangalore</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- col for search btn -->
+          <div class="col-md-2 col-sm-12">
+            <div class="search-btn-wrapper mb-20">
+              <button type="submit" class="btn btn-info">
+                <i class="fa fa-search" aria-hidden="true"></i> Search
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- row that would contain search bar , checkboxes and select dropdown - ends -->
+        <!-- row for Register btn -->
+        <div class="row pt-5">
+          <div class="col-md-2 offset-md-5">
+            <button class="btn btn-info" (click)="openRegistrationDialog()">
+              Register
+            </button>
+          </div>
+        </div>
+        <!-- row for Register btn - ends -->
+      </div>
+    </div>
+    <!-- search box ends -->
+  </div>
+  <!-- container - ends -->
+  <!-- search wrapper ends -->
+</section>
